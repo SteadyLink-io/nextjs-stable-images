@@ -22,7 +22,20 @@ Upload a public image to [SteadyLink](https://steadylink.io), copy its stable as
 NEXT_PUBLIC_STEADYLINK_ASSET_URL=https://cdn.steadylink.io/a/YOUR_ASSET_ID
 ```
 
-The application reads the URL in `app/page.tsx` and renders it with `next/image`.
+The application reads the URL in `app/page.tsx` and renders it with `next/image`. Images go through the loader from [`@steadylink/sdk`](https://github.com/SteadyLink-io/typescript-sdk), so SteadyLink does the resizing and Next.js only builds the `srcset`.
+
+```ts
+// steadylink-loader.ts
+export { default } from "@steadylink/sdk/next-loader";
+```
+
+```ts
+// next.config.ts
+images: {
+  loader: "custom",
+  loaderFile: "./steadylink-loader.ts",
+},
+```
 
 ```tsx
 <Image
@@ -30,12 +43,12 @@ The application reads the URL in `app/page.tsx` and renders it with `next/image`
   alt="Image delivered through a stable SteadyLink URL"
   width={1200}
   height={630}
+  sizes="(max-width: 900px) 100vw, 50vw"
   priority
-  unoptimized
 />
 ```
 
-Using `unoptimized` keeps image delivery on SteadyLink instead of adding the Next.js image optimizer cache in front of the stable URL.
+Each `srcset` entry is the same stable URL with a width, format, and quality, for example `https://cdn.steadylink.io/a/YOUR_ASSET_ID?w=640&fm=webp&q=75`. `src` can also be a bare asset ID.
 
 ## Replace the image
 
@@ -53,7 +66,7 @@ The component and environment variable remain unchanged. After the stable delive
 
 - [How to replace an image without changing its URL](https://steadylink.io/blog/replace-image-without-changing-url)
 - [Stable asset URLs](https://steadylink.io/features/stable-asset-urls)
-- [SteadyLink documentation](https://steadylink.io/docs/users/getting-started)
+- [SteadyLink documentation](https://steadylink.io/docs)
 
 ## License
 

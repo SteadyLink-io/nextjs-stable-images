@@ -5,13 +5,8 @@ const nextConfig: NextConfig = {
     root: process.cwd(),
   },
   images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "cdn.steadylink.io",
-        pathname: "/a/**",
-      },
-    ],
+    loader: "custom",
+    loaderFile: "./steadylink-loader.ts",
   },
 };
 

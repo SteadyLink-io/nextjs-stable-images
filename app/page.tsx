@@ -43,10 +43,10 @@ export default function Home() {
             alt="Image delivered through a stable SteadyLink URL"
             width={1200}
             height={630}
+            sizes="(max-width: 900px) 100vw, 50vw"
             priority
-            unoptimized
           />
-          <figcaption>The browser loads the image directly from SteadyLink.</figcaption>
+          <figcaption>SteadyLink resizes the current revision for each screen width.</figcaption>
         </figure>
       </section>
 
